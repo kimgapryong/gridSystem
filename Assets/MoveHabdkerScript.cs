@@ -6,36 +6,35 @@ using CodeMonkey.Utils;
 public class MoveHabdkerScript : MonoBehaviour
 {
     private float Speed = 7f;
-    private PathFinding path;
-    //private GameObject Player;
+  
+    private GameObject Player;
     private List<Vector3> vectorList;
     private int current;
 
+
     private void Awake()
     {
-        //Player = GameObject.Find("Player");
-        testing test = FindObjectOfType<testing>();
-        if (test != null)
-        {
-            TileCreate<Node> grid = test.getGrid();
-            path = new PathFinding(grid);
-            Debug.Log(path.ToString());
-        }
-
+        Player = GameObject.Find("Pla");
+        Debug.Log(Player.ToString());
     }
-    private Vector3 GetenermyPos() {  return transform.position; }
-    //private Vector3 GetplaPos() { return Player.transform.position; }
+
+    public Vector3 GetenermyPos() {  return transform.position; }
+    public Vector3 GetplaPos() { return Player.transform.position; }
+
+  
 
     private void Update()
     {
         MoveHandler();
-
+        PathNode();
+        /*
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mousePos = UtilsClass.GetMouseWorldPosition();
             Debug.Log("1");
             PathNode(mousePos);
         }
+        */
     }
     private void MoveHandler()
     {
@@ -57,10 +56,10 @@ public class MoveHabdkerScript : MonoBehaviour
             }
         }
     }
-    private void PathNode(Vector3 mousePos)
+    private void PathNode()
     {
         current = 0;
-        vectorList = path.FindPath(GetenermyPos(), mousePos);
+        vectorList = PathFinding.instance.FindPath(GetenermyPos(), GetplaPos());
         if (vectorList != null && vectorList.Count > 1)
         {
             vectorList.RemoveAt(0);

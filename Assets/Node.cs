@@ -7,6 +7,8 @@ public class Node
     public int x;
     public int y;
 
+    public bool isWalkable = true;
+
     public int gCost;
     public int hCost;
     public int fCost;

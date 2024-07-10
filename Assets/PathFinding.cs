@@ -14,19 +14,16 @@ public class PathFinding
     private List<Node> openList;
     private List<Node> closeList;
 
-
-    public PathFinding(TileCreate<Node> grid)
+    public static PathFinding instance { get; private set; }
+    public PathFinding(int width, int height)
     {
-        if (grid == null)
-        {
-            grid = this.grid;
-        }
-        else
-        {
-            Debug.Log("Á¿±î");
-        }
-        
-        
+        instance = this;
+        grid = new TileCreate<Node>(width, height, (TileCreate<Node> g, int x, int y) => new Node(g, x, y));
+    }
+
+    public TileCreate<Node> GetGrid()
+    {
+        return grid;
     }
     
     public List<Vector3> FindPath(Vector3 start, Vector3 end)
@@ -87,6 +84,7 @@ public class PathFinding
             foreach (Node node in NaverNode(currentNode))
             {
                 if(closeList.Contains(node)) continue;
+                if (node.isWalkable == false) continue;
 
                 int realGcost = node.gCost + GetHcost(currentNode, node);
                 if(realGcost < node.gCost)
